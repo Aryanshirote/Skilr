@@ -1,0 +1,18 @@
+{%extends "base.html"%}
+{%block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+</head>
+<body>
+    <form method="POST" action = {% url 'file_upload'%}>
+    {% csrf_token %}
+    <input type="file" placeholder= "Upload PDF" name="file_upload"/></br>
+    <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
+{%endblock%}

@@ -3,11 +3,27 @@
 {% block content %}
 <div class="form-container">
     <h2>Login</h2>
-    <form>
-        <input type="username" placeholder="Username">
-        <input type="password" placeholder="Password">
-        <button class="btn">Login</button>
+    
+    <form action="{%url 'login'%}" method="POST">
+        {% csrf_token %}
+        <input type="username" placeholder="Username" name="username">
+        <input type="password" placeholder="Password" name='password'>
+        <button class="hover-button">Login</button>
     </form>
 </div>
+<div>
+    
+
+    {% if Success %}
+
+        {{Success}}
+
+    {% endif %}
+
+    {% if error %}
+
+        {{ error }}
+
+    {%endif%}
 
 {%endblock%}

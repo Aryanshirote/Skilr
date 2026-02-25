@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+from templates import *
+from lxml import *
+
+def main():
+    a = np.linspace(1, 10, 50)
+    print(sum(a))
+
+def pds():
+    
+    with open('login.html', 'r') as f:
+        data = pd.read_html(f.read())
+    print(data[0].head())
+    
+
+
+pds()
+
+main()
+

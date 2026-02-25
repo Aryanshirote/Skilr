@@ -1,3 +1,10 @@
 from django.db import models
 
-# Create your models here.
+class Registrations(models.Model):
+    username = models.CharField(max_length=100, null=False)
+    email = models.EmailField(null=False)
+    password = models.CharField(null=False)
+    cnfm_password = models.CharField(null=False)
+
+
+
