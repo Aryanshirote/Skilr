@@ -1,14 +1,5 @@
-{% extends "base.html"%}
-{% block content%}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart Placement Dashboard</title>
-    <link rel="stylesheet" href="css/dashboard.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 
 <div class="layout">
 
@@ -17,31 +8,38 @@
         <h2 class="logo">SmartAI</h2>
 
         <nav>
-            <a href={%url 'file_upload'%}>Upload Resume</a>
-            <a href="#">My Resumes</a>
-            <a href="#">Job Matches</a>
-            <a href="#">Skill Analysis</a>
-            <a href="#">Settings</a>
+            <a href="#">📄 My Resumes</a>
+            <a href="#">💼 Job Matches</a>
+            <a href="#">📊 Skill Analysis</a>
+            <a href="#">⚙ Settings</a>
+            <a href="{%url 'logout'%}">Logout</a>
         </nav>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main -->
     <main class="main">
 
-        <!-- Top Navbar -->
+        <!-- Topbar -->
         <header class="topbar">
             <input type="text" placeholder="Search jobs, skills...">
-            <div class="user">Welcome, User</div>
+            <div class="user">Welcome, {{ request.user.username }}</div>
         </header>
 
-        <!-- Dashboard Content -->
+        <!-- Upload Resume Button -->
+            <div class="upload-section">
+                <a href="{% url 'file_upload' %}" class="upload-btn">
+                    + Upload New Resume
+                </a>
+            </div>
+
+        <!-- Content -->
         <section class="content">
 
             <h1>Dashboard Overview</h1>
 
             <div class="cards">
 
-                <div class="card">
+                <div class="card highlight">
                     <h3>Resume Score</h3>
                     <p class="big">78%</p>
                     <span>Based on last upload</span>
@@ -67,13 +65,12 @@
 
             </div>
 
+            
+
         </section>
 
     </main>
 
 </div>
 
-</body>
-</html>
-
-{%endblock%}
+{% endblock %}

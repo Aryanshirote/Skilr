@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from .models import Registrations
 
 # -------------------------------------------------------
 # HOME VIEW
 # -------------------------------------------------------
+
 def home(request):
     return render (request, 'home.html')
 
@@ -55,27 +57,25 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             auth_login(request, user)
-            return redirect('home') 
+            return redirect('dashboard') 
         else:
             return render(request, 'login.html', {"error": "Invalid username or password"})
     return render(request, 'login.html')
+# -------------------------------------------------------
+# LOGOUT VIEW
+# -------------------------------------------------------
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect("login")
 
 # -------------------------------------------------------
 # DASHBOARD VIEW
 # -------------------------------------------------------
+@login_required
 def dashboard(request):
     return render (request, 'dashboard.html')
 
 
-# -------------------------------------------------------
-# FILE UPLOAD VIEW
-# -------------------------------------------------------
-def file_upload(request):
-    
-    if request.method == "POST":
-        pdf_file = request.POST.get("file_upload")
-        return render (request, "dashboard.html")
-
-    return render (request, "fileupload.html")
 
 

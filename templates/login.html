@@ -1,29 +1,127 @@
-{%extends "base.html"%}
-
+{% extends "base.html" %}
 {% block content %}
-<div class="form-container">
-    <h2>Login</h2>
-    
-    <form action="{%url 'login'%}" method="POST">
-        {% csrf_token %}
-        <input type="username" placeholder="Username" name="username">
-        <input type="password" placeholder="Password" name='password'>
-        <button class="hover-button">Login</button>
-    </form>
+{% load static %}
+
+<style>
+.auth-page {
+    {% comment %} position: relative; {% endcomment %}
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("{% static 'images/bg1.png' %}") no-repeat center center/cover;
+}
+
+.auth-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.55);
+}
+
+.container {
+    position: relative;
+    width: 400px;
+    text-align: center;
+    color: #fff;
+    z-index: 2;
+}
+
+.input-box {
+    margin: 20px 0;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    background: #e6b99a;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#newdiv {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #ddd;
+    letter-spacing: 0.5px;
+}
+
+#signup {
+    background: rgba(56,189,248,0.15);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+#signup {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 5px;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+/* Underline animation */
+#signup::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background: #38bdf8;
+    transition: width 0.3s ease;
+}
+
+#signup:hover {
+    color: #7dd3fc;
+}
+
+#signup:hover::after {
+    width: 100%;
+}
+</style>
+
+<div class="auth-page">
+    <div class="auth-overlay"></div>
+
+    <div class="container">
+        <h1>Login</h1>
+
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn">SIGN IN</button>
+
+            <div id="newdiv"> New User? <a href="{%url 'register'%}" id="signup"> Create account </a></div> 
+
+            {% if error %}
+                <p style="color:#ffcccc; margin-top:10px;">{{ error }}</p>
+            {% endif %}
+        </form>
+    </div>
 </div>
-<div>
-    
 
-    {% if Success %}
-
-        {{Success}}
-
-    {% endif %}
-
-    {% if error %}
-
-        {{ error }}
-
-    {%endif%}
-
-{%endblock%}
+{% endblock %}

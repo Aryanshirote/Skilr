@@ -1,35 +1,121 @@
 {% extends "base.html" %}
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart Placement System</title>
-    {% comment %} <link rel="stylesheet" href="css/style.css"> {% endcomment %}
-</head>
-<body>
 
-<header>
-    <h1>Smart Placement & Resume Intelligence</h1>
-    <nav>
-        <a href={%url 'login'%}>Login</a>
-        <a href={%url 'register'%}>Register</a>
-        <a href={%url 'dashboard'%}> Dashboard</a>
-    </nav>
-</header>
+<div class="landing">
 
-<section class="hero">
-    <h2>Boost Your Placement Chances with AI</h2>
-    <p>Upload Resume • Match Jobs • Find Skill Gaps</p>
-    <a href=={%url 'register'%} class="btn">Get Started</a>
+    <section class="hero">
+        <h1>Smart Placement & Resume Intelligence</h1>
+
+        <h2>
+            <span id="typing"></span>
+        </h2>
+
+        <p>Upload Resume • Match Jobs • Find Skill Gaps • Improve Instantly</p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'register' %}" class="primary-btn">Get Started</a>
+            <a href="{% url 'login' %}" class="secondary-btn">Login</a>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat-box">
+            <h3 class="counter" data-target="1250">0</h3>
+            <p>Resumes Analyzed</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="540">0</h3>
+            <p>Jobs Matched</p>
+        </div>
+
+        <div class="stat-box">
+            <h3 class="counter" data-target="320">0</h3>
+            <p>Students Placed</p>
+        </div>
+    </section>
+
+</div>
+
+<section class="testimonials hidden">
+    <h2>What Students Say</h2>
+
+    <div class="testimonial-grid">
+
+        <div class="testimonial-card">
+            <p>"My resume score improved from 62% to 89%. Got placed in 2 months!"</p>
+            <h4>- Rahul, Software Engineer</h4>
+        </div>
+
+        <div class="testimonial-card">
+            <p>"The skill gap analysis helped me focus only on what matters."</p>
+            <h4>- Priya, Data Analyst</h4>
+        </div>
+
+    </div>
 </section>
 
-<footer>
-    <p>© 2026 Smart Placement System</p>
-</footer>
 
-</body>
-</html>
+<!-- JS Animations -->
+<script>
+
+    // Typing Animation
+    const textArray = [
+        "Boost Your Placement Chances",
+        "AI Powered Resume Scoring",
+        "Find Skill Gaps Instantly"
+    ];
+
+    let index = 0;
+    let charIndex = 0;
+    const typingElement = document.getElementById("typing");
+
+    function typeEffect() {
+        if (charIndex < textArray[index].length) {
+            typingElement.innerHTML += textArray[index].charAt(charIndex);
+            charIndex++;
+            setTimeout(typeEffect, 50);
+        } else {
+            setTimeout(eraseEffect, 1500);
+        }
+    }
+
+    function eraseEffect() {
+        if (charIndex > 0) {
+            typingElement.innerHTML = textArray[index].substring(0, charIndex - 1);
+            charIndex--;
+            setTimeout(eraseEffect, 30);
+        } else {
+            index = (index + 1) % textArray.length;
+            setTimeout(typeEffect, 200);
+        }
+    }
+
+    typeEffect();
 
 
-{% endblock%}
+    // Counter Animation
+    const counters = document.querySelectorAll('.counter');
+
+    counters.forEach(counter => {
+        counter.innerText = '0';
+
+        const updateCounter = () => {
+            const target = +counter.getAttribute('data-target');
+            const current = +counter.innerText;
+            const increment = target / 100;
+
+            if (current < target) {
+                counter.innerText = `${Math.ceil(current + increment)}`;
+                setTimeout(updateCounter, 20);
+            } else {
+                counter.innerText = target;
+            }
+        };
+
+        updateCounter();
+    });
+
+</script>
+
+{% endblock %}

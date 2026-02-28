@@ -1,18 +1,29 @@
-{%extends "base.html"%}
-{%block content%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Resume</title>
-</head>
-<body>
-    <form method="POST" action = {% url 'file_upload'%}>
-    {% csrf_token %}
-    <input type="file" placeholder= "Upload PDF" name="file_upload"/></br>
-    <button type="submit">Upload</button>
-    </form>
-</body>
-</html>
-{%endblock%}
+{% extends "base.html" %}
+{% block content %}
+
+<div class="upload-wrapper">
+
+    <div class="upload-card">
+        <h1>Upload Your Resume</h1>
+        <p>Upload your PDF resume and get instant AI analysis.</p>
+
+        <form method="POST" action="{% url 'file_upload' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="file-drop-area">
+                <input type="file" name="file_upload" accept=".pdf" required>
+                <span class="upload-text">
+                    Drag & Drop your PDF here <br> or <strong>Click to Browse</strong>
+                </span>
+            </div>
+
+            <button type="submit" class="upload-btn">
+                Analyze Resume
+            </button>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
