@@ -1,0 +1,17 @@
+<h1>Skill Gap Analysis</h1>
+
+<h3>Your Skills</h3>
+
+<ul>
+{% for skill in resume_skills %}
+<li>{{skill}}</li>
+{% endfor %}
+</ul>
+
+<h3>Skills You Should Learn</h3>
+
+<ul>
+{% for skill in missing %}
+<li>{{skill}}</li>
+{% endfor %}
+</ul>

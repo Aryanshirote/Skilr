@@ -8,12 +8,6 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Registrations
 
-# -------------------------------------------------------
-# HOME VIEW
-# -------------------------------------------------------
-
-def home(request):
-    return render (request, 'home.html')
 
 # -------------------------------------------------------
 # REGISTER VIEW
@@ -67,14 +61,9 @@ def login(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect("login")
+    return redirect("home")
 
-# -------------------------------------------------------
-# DASHBOARD VIEW
-# -------------------------------------------------------
-@login_required
-def dashboard(request):
-    return render (request, 'dashboard.html')
+
 
 
 

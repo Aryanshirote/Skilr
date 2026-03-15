@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+.error-box{
+    background: #ffe6e6;
+    color: #cc0000;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+</style>
+
 <div class="upload-wrapper">
 
     <div class="upload-card">
@@ -21,7 +33,9 @@
                 Analyze Resume
             </button>
         </form>
-
+            {% if error %}
+           <span> {{ error }} </span>
+            {% endif %}
     </div>
 
 </div>

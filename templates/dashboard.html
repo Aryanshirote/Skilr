@@ -3,73 +3,143 @@
 
 <div class="layout">
 
-    <!-- Sidebar -->
-    <aside class="sidebar">
-        <h2 class="logo">SmartAI</h2>
+<!-- Sidebar -->
+<aside class="sidebar">
+<h2 class="logo">SmartAI</h2>
 
-        <nav>
-            <a href="#">📄 My Resumes</a>
-            <a href="#">💼 Job Matches</a>
-            <a href="#">📊 Skill Analysis</a>
-            <a href="#">⚙ Settings</a>
-            <a href="{%url 'logout'%}">Logout</a>
-        </nav>
-    </aside>
+<nav>
+<a href="#">📄 My Resumes</a>
+<a href="#">💼 Job Matches</a>
+<a href="#">📊 Skill Analysis</a>
+<a href="#">⚙ Settings</a>
+<a href="{% url 'logout' %}">Logout</a>
+</nav>
+</aside>
 
-    <!-- Main -->
-    <main class="main">
 
-        <!-- Topbar -->
-        <header class="topbar">
-            <input type="text" placeholder="Search jobs, skills...">
-            <div class="user">Welcome, {{ request.user.username }}</div>
-        </header>
+<!-- Main -->
+<main class="main">
 
-        <!-- Upload Resume Button -->
-            <div class="upload-section">
-                <a href="{% url 'file_upload' %}" class="upload-btn">
-                    + Upload New Resume
-                </a>
-            </div>
+<!-- Topbar -->
+<header class="topbar">
+<input type="text" placeholder="Search jobs, skills...">
+<div class="user">Welcome, {{ request.user.username }}</div>
+</header>
 
-        <!-- Content -->
-        <section class="content">
 
-            <h1>Dashboard Overview</h1>
+<section class="content">
 
-            <div class="cards">
+<!-- Upload Resume -->
+<div class="upload-section">
+<a href="{% url 'file_upload' %}" class="upload-btn">
++ Upload New Resume
+</a>
+</div>
 
-                <div class="card highlight">
-                    <h3>Resume Score</h3>
-                    <p class="big">78%</p>
-                    <span>Based on last upload</span>
-                </div>
 
-                <div class="card">
-                    <h3>Job Matches</h3>
-                    <p class="big">12</p>
-                    <span>New matching jobs</span>
-                </div>
+<h1>Dashboard Overview</h1>
 
-                <div class="card">
-                    <h3>Skill Gaps</h3>
-                    <p class="big">5</p>
-                    <span>Skills to improve</span>
-                </div>
 
-                <div class="card">
-                    <h3>Applications</h3>
-                    <p class="big">3</p>
-                    <span>Submitted recently</span>
-                </div>
+<!-- Dashboard Stats -->
+<div class="cards">
 
-            </div>
+<div class="card highlight">
+<h3>Total Resumes</h3>
+<p class="big">{{ total_resumes }}</p>
+<span>Uploaded by you</span>
+</div>
 
-            
 
-        </section>
+<div class="card">
+<h3>Latest Resume Score</h3>
+<p class="big">{{ latest_score }}%</p>
+<span>Calculated from skills</span>
+</div>
 
-    </main>
+
+<div class="card">
+<h3>Detected Skills</h3>
+<p class="big">{{ total_skills }}</p>
+<span>From your latest resume</span>
+</div>
+
+
+<div class="card">
+<h3>Skill Gaps</h3>
+<p class="big">{{ skill_gaps }}</p>
+<span>Skills you should learn</span>
+</div>
+
+</div>
+
+
+<!-- Resume History -->
+<div class="resume-section">
+
+<h2>Your Uploaded Resumes</h2>
+
+<table class="resume-table">
+
+<thead>
+<tr>
+<th>Resume</th>
+<th>Skills</th>
+<th>Uploaded</th>
+<th>Actions</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for resume in resumes %}
+
+<tr>
+
+<td>
+<a href="{{ resume.file.url }}" target="_blank">
+{{ resume.file.name|cut:"resumes/" }}
+</a>
+</td>
+
+<td>{{ resume.skills }}</td>
+
+<td>{{ resume.uploaded_at|date:"d M Y" }}</td>
+
+<td>
+
+<div class="action-buttons">
+
+<a href="{{ resume.file.url }}" class="view-btn" target="_blank">View</a>
+
+<a href="{% url 'resume_score' resume.id %}" class="view-btn">Score</a>
+
+<a href="{% url 'skill_gap' resume.id %}" class="view-btn">Skill Gap</a>
+
+<a href="{% url 'job_match' resume.id %}" class="view-btn">Job Match</a>
+
+</div>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="4">No resumes uploaded yet.</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
 
 </div>
 

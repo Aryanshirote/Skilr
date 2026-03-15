@@ -88,19 +88,21 @@ input {
     display: flex;
 }
 
-.sidebar {
-    width: 220px;
-    background: #1e293b;
-    color: white;
-    height: 100vh;
-    padding: 20px;
-}
+    {% comment %} .sidebar {
+        width: 220px;
+        background: #1e293b;
+        color: white;
+        height: 100vh;
+        padding: 20px;
+        
+    } {% endcomment %}
 
 .sidebar a {
     display: block;
     color: white;
     margin: 15px 0;
     text-decoration: none;
+    
 }
 
 .main {
@@ -108,7 +110,7 @@ input {
     padding: 30px;
 }
 
-{% comment %} Dashboards CSS {% endcomment %}
+
 
 * {
     margin: 0;
@@ -124,16 +126,17 @@ body {
 /* Layout */
 .layout {
     display: flex;
+    min-height: 100vh;
 }
 
 /* Sidebar */
-.sidebar {
+{% comment %} .sidebar {
     width: 240px;
     background: #0f172a;
     color: white;
     height: 100vh;
     padding: 25px;
-}
+} {% endcomment %}
 
 .logo {
     margin-bottom: 40px;
@@ -303,6 +306,7 @@ body {
     background: linear-gradient(180deg, #0f172a, #1e293b);
     color: white;
     padding: 30px;
+    min-height: 100vh;
 }
 
 .logo {
@@ -350,6 +354,7 @@ body {
 
 .user {
     font-weight: 500;
+    color: black;
 }
 
 /* Content */
@@ -646,6 +651,56 @@ header.shrink {
     box-shadow: 0 8px 25px rgba(0,0,0,0.05);
     max-width: 350px;
 }
+
+.resume-table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:white;
+border-radius:10px;
+overflow:hidden;
+}
+
+.resume-table th{
+background:#1e293b;
+color:white;
+padding:14px;
+text-align:left;
+}
+
+.resume-table td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+.resume-table tr:hover{
+background:#f8fafc;
+}
+
+.action-buttons{
+display:flex;
+flex-wrap:wrap;
+gap:5px;
+}
+
+.view-btn{
+background:#2563eb;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+white-space:nowrap;
+}
+
+.view-btn:hover{
+background:#1d4ed8;
+}
+
+.view-btn{background:#2563eb;}
+.score-btn{background:#16a34a;}
+.gap-btn{background:#ea580c;}
+.job-btn{background:#9333ea;}
 
 </style> 
 

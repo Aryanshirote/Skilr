@@ -5,6 +5,7 @@ from analytics.views import *
 
 
 urlpatterns = [
-    path("fileupload/", file_upload, name="file_upload"),
+    path("fileupload/", upload_resume, name="file_upload"),
+    path("job-match/<int:id>/", job_match, name="job_match"),
 
 ]

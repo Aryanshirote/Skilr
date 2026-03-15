@@ -1,34 +1,54 @@
-from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
-import os
+from django.shortcuts import render, redirect
+from .models import Resume
+from .services import analyze_resume
+from django.contrib.auth.decorators import login_required
 
-# -------------------------------------------------------
-# FILE UPLOAD VIEW
-# -------------------------------------------------------
 
-def file_upload(request):
+@login_required
+def upload_resume(request):
 
     if request.method == "POST" and request.FILES.get("file_upload"):
 
-        pdf_file = request.FILES["file_upload"]
+        resume = Resume.objects.create(
+            user=request.user,
+            file=request.FILES["file_upload"]
+        )
 
-        # Validate file type
-        if not pdf_file.name.endswith(".pdf"):
-            return render(request, "fileupload.html", {
-                "error": "Only PDF files are allowed!"
-            })
+        # Run analysis
+        analyze_resume(resume)
 
-        # Save file
-        fs = FileSystemStorage()
-        filename = fs.save(pdf_file.name, pdf_file)
-        file_path = fs.path(filename)
-
-        print("File saved at:", file_path)
-
-        # 🔥 Later you will send this file_path to resume analyzer logic
-
-        return render(request, "dashboard.html", {
-            "file_name": filename
-        })
+        return redirect("dashboard")
 
     return render(request, "fileupload.html")
+
+
+from .services import fetch_jobs, calculate_match
+from .models import Resume
+
+
+def job_match(request, id):
+
+    resume = Resume.objects.get(id=id)
+
+    resume_text = resume.extracted_text
+    skills = [s.strip() for s in resume.skills.split(",")] if resume.skills else []
+
+    jobs = fetch_jobs(skills)
+
+    results = []
+
+    for job in jobs:
+
+        score = calculate_match(resume_text, job["description"])
+        results.append({
+            "title": job["title"],
+            "company": job["company"],
+            "location": job["location"],
+            "url": job["url"],
+            "score": score
+        })
+
+    return render(request, "job_match.html", {
+        "jobs": results,
+        "resume": resume
+    })

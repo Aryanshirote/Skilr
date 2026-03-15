@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Job Matches</h1>
+
+<table class="resume-table">
+
+<tr>
+<th>Job</th>
+<th>Company</th>
+<th>Location</th>
+<th>Match %</th>
+<th>Apply</th>
+</tr>
+
+{% for job in jobs %}
+
+<tr>
+
+<td>{{ job.title }}</td>
+<td>{{ job.company }}</td>
+<td>{{ job.location }}</td>
+<td>{{ job.score }}%</td>
+
+<td>
+<a href="{{ job.url }}" target="_blank" class="view-btn">
+Apply
+</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}
