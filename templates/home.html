@@ -3,14 +3,17 @@
 
 <div class="landing">
 
+    <!-- HERO -->
     <section class="hero">
-        <h1>Smart Placement & Resume Intelligence</h1>
+        <h1>Skilr — Resume Intelligence Platform</h1>
 
         <h2>
             <span id="typing"></span>
         </h2>
 
-        <p>Upload Resume • Match Jobs • Find Skill Gaps • Improve Instantly</p>
+        <p>
+            Analyze your resume, discover skill gaps, and get matched with the right jobs — instantly.
+        </p>
 
         <div class="hero-buttons">
             <a href="{% url 'register' %}" class="primary-btn">Get Started</a>
@@ -18,42 +21,50 @@
         </div>
     </section>
 
+
+    <!-- STATS (FIXED) -->
     <section class="stats">
+
         <div class="stat-box">
-            <h3 class="counter" data-target="1250">0</h3>
+            <h3 class="counter" data-target="{{ total_resumes|default:0 }}">0</h3>
             <p>Resumes Analyzed</p>
         </div>
 
         <div class="stat-box">
-            <h3 class="counter" data-target="540">0</h3>
+            <h3 class="counter" data-target="{{ total_jobs|default:0 }}">0</h3>
             <p>Jobs Matched</p>
         </div>
 
         <div class="stat-box">
-            <h3 class="counter" data-target="320">0</h3>
+            <h3 class="counter" data-target="{{ placements|default:0 }}">0</h3>
             <p>Students Placed</p>
+        </div>
+
+    </section>
+
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+        <h2>What Users Say</h2>
+
+        <div class="testimonial-grid">
+
+            {% for t in testimonials %}
+            <div class="testimonial-card">
+                <p>"{{ t.message|truncatewords:20 }}"</p>
+                <h4>
+                    - {{ t.user.username }},
+                    ⭐ {{ t.rating }}/5
+                </h4>
+            </div>
+            {% empty %}
+            <p>No feedback yet. Be the first to share your experience!</p>
+            {% endfor %}
+
         </div>
     </section>
 
 </div>
-
-<section class="testimonials hidden">
-    <h2>What Students Say</h2>
-
-    <div class="testimonial-grid">
-
-        <div class="testimonial-card">
-            <p>"My resume score improved from 62% to 89%. Got placed in 2 months!"</p>
-            <h4>- Rahul, Software Engineer</h4>
-        </div>
-
-        <div class="testimonial-card">
-            <p>"The skill gap analysis helped me focus only on what matters."</p>
-            <h4>- Priya, Data Analyst</h4>
-        </div>
-
-    </div>
-</section>
 
 
 <!-- JS Animations -->
@@ -94,20 +105,21 @@
     typeEffect();
 
 
-    // Counter Animation
+    // FIXED Counter Animation
     const counters = document.querySelectorAll('.counter');
 
     counters.forEach(counter => {
-        counter.innerText = '0';
+        const target = parseInt(counter.getAttribute('data-target')) || 0;
+
+        let current = 0;
+        const increment = Math.max(1, Math.ceil(target / 100));
 
         const updateCounter = () => {
-            const target = +counter.getAttribute('data-target');
-            const current = +counter.innerText;
-            const increment = target / 100;
+            current += increment;
 
             if (current < target) {
-                counter.innerText = `${Math.ceil(current + increment)}`;
-                setTimeout(updateCounter, 20);
+                counter.innerText = current;
+                requestAnimationFrame(updateCounter);
             } else {
                 counter.innerText = target;
             }

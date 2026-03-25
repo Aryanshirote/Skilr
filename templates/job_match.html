@@ -1,37 +1,151 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Job Matches</h1>
+<style>
+    .jobs-container {
+        padding: 30px;
+    }
 
-<table class="resume-table">
+    .page-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-<tr>
-<th>Job</th>
-<th>Company</th>
-<th>Location</th>
-<th>Match %</th>
-<th>Apply</th>
-</tr>
+    .jobs-grid {
+        display: grid;
+        gap: 20px;
+    }
 
-{% for job in jobs %}
+    .job-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: 0.3s ease;
+    }
 
-<tr>
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+    }
 
-<td>{{ job.title }}</td>
-<td>{{ job.company }}</td>
-<td>{{ job.location }}</td>
-<td>{{ job.score }}%</td>
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-<td>
-<a href="{{ job.url }}" target="_blank" class="view-btn">
-Apply
-</a>
-</td>
+    .job-title {
+        font-size: 20px;
+        font-weight: 600;
+    }
 
-</tr>
+    .job-company {
+        color: #666;
+        font-size: 14px;
+    }
 
-{% endfor %}
+    .job-location {
+        font-size: 13px;
+        color: #999;
+        margin-top: 5px;
+    }
 
-</table>
+    .job-score {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 6px 12px;
+        border-radius: 10px;
+    }
+
+    .excellent { background: #d4edda; color: #155724; }
+    .good { background: #fff3cd; color: #856404; }
+    .needs-work { background: #f8d7da; color: #721c24; }
+
+    .job-body {
+        margin-top: 15px;
+    }
+
+    .missing-skills {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .apply-btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 8px 15px;
+        background: #007bff;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .apply-btn:hover {
+        background: #0056b3;
+    }
+
+    .empty-state {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        background: #fff3cd;
+        color: #856404;
+    }
+
+</style>
+
+<div class="jobs-container">
+
+    <div class="page-title">💼 Skilr Job Matches</div>
+
+    <div class="jobs-grid">
+
+        {% for job in jobs %}
+        <div class="job-card">
+
+            <div class="job-header">
+                <div>
+                    <div class="job-title">{{ job.title }}</div>
+                    <div class="job-company">{{ job.company }}</div>
+                    <div class="job-location">{{ job.location }}</div>
+                </div>
+
+                <div class="job-score 
+                    {% if job.score >= 80 %}excellent
+                    {% elif job.score >= 60 %}good
+                    {% else %}needs-work{% endif %}">
+                    {{ job.score }}%
+                </div>
+            </div>
+
+            <div class="job-body">
+
+                {% if job.missing %}
+                <div class="missing-skills">
+                    <strong>Recommended Skills:</strong>
+                    {{ job.missing|join:", " }}
+                </div>
+                {% endif %}
+
+                <a href="{{ job.url }}" target="_blank" class="apply-btn">
+                    🚀 Apply Now
+                </a>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <div class="empty-state">
+                ⚠️ No job matches found. Try uploading a better resume.
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from .models import Registrations
+from .models import *
 
 
 # -------------------------------------------------------
@@ -18,6 +18,8 @@ def register(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         cnfm_password = request.POST.get("confirm_password")
+        industry = request.POST.get("industry")
+        
         if password !=cnfm_password:
             msgstr = {"error" : "Passwords do not match"}
             return render (request, "register.html", msgstr)
@@ -32,8 +34,13 @@ def register(request):
                 username = username,
                 email = email,
                 password = password
-            
+             )
+            Profile.objects.create(
+                user=user, 
+                industry=industry
             )
+            
+           
             user.save()
         
         return redirect('login')

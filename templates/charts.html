@@ -1,0 +1,86 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<style>
+    .charts-container {
+        padding: 30px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 25px;
+    }
+
+    .chart-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: 0.3s ease;
+    }
+
+    .chart-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+    }
+
+    .chart-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .chart-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    .empty-state {
+        background: #fff3cd;
+        padding: 15px;
+        border-radius: 10px;
+        color: #856404;
+        margin-top: 20px;
+    }
+
+</style>
+
+<div class="charts-container">
+
+    <div class="page-title">📊 Skill & Performance Analytics</div>
+
+    <div class="charts-grid">
+
+        {% if score_chart %}
+        <div class="chart-card">
+            <div class="chart-title">📈 Score Improvement</div>
+            <img src="/{{ score_chart }}">
+        </div>
+        {% endif %}
+
+        {% if skill_chart %}
+        <div class="chart-card">
+            <div class="chart-title">🧠 Skills Growth</div>
+            <img src="/{{ skill_chart }}">
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% if error %}
+        <div class="empty-state">
+            ⚠️ {{ error }}
+        </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

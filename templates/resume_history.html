@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .resume-section {
+        padding: 30px;
+    }
+
+    .page-title {
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .resume-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .resume-table th {
+        background: #f8f9fa;
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .resume-table td {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        vertical-align: top;
+    }
+
+    .resume-table tr:hover {
+        background: #f9f9f9;
+    }
+
+    .resume-link {
+        font-weight: 500;
+        color: #007bff;
+    }
+
+    .resume-link:hover {
+        text-decoration: underline;
+    }
+
+    .skills-box {
+        max-width: 250px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .action-buttons a {
+        display: inline-block;
+        margin: 4px 4px 0 0;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        text-decoration: none;
+        color: white;
+        transition: 0.3s;
+    }
+
+    .view-btn { background: #6c757d; }
+    .score-btn { background: #007bff; }
+    .skill-btn { background: #17a2b8; }
+    .job-btn { background: #28a745; }
+
+    .action-buttons a:hover {
+        opacity: 0.85;
+    }
+
+    .empty-row {
+        text-align: center;
+        padding: 20px;
+        color: #888;
+    }
+</style>
+
+<div class="layout">
+
+<!-- Sidebar -->
+<aside class="sidebar">
+<h2 class="logo">Skilr</h2>
+
+<nav>
+    <a href="{% url 'dashboard' %}">  Dashboard </a>
+    <a href="{% url 'resume_history' %}">📄 My Resumes</a>
+    <a href="{% url 'charts'%}">📊 Skill Analysis</a>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'feedback' %}">Feedback</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</nav>
+</aside>
+
+<!-- Main -->
+<main class="main">
+
+<header class="topbar">
+<div class="user" style="text-align:right;">
+    Welcome, {{ request.user.username }}
+</div>
+</header>
+
+<!-- Resume History -->
+<div class="resume-section">
+
+    <div class="page-title">📄 Your Uploaded Resumes</div>
+
+    <table class="resume-table">
+
+        <thead>
+            <tr>
+                <th>Resume</th>
+                <th>Skills</th>
+                <th>Uploaded</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for resume in resumes %}
+
+        <tr>
+
+            <td>
+                <a href="{{ resume.file.url }}" target="_blank" class="resume-link">
+                    {{ resume.file.name|cut:"resumes/" }}
+                </a>
+            </td>
+
+            <td class="skills-box">
+                {{ resume.skills }}
+            </td>
+
+            <td>
+                {{ resume.uploaded_at|date:"d M Y" }}
+            </td>
+
+            <td>
+                <div class="action-buttons">
+                    <a href="{{ resume.file.url }}" target="_blank" class="view-btn">View</a>
+                    <a href="{% url 'resume_score' resume.id %}" class="score-btn">Score</a>
+                    <a href="{% url 'skill_gap' resume.id %}" class="skill-btn">Skill Gap</a>
+                    <a href="{% url 'job_match' resume.id %}" class="job-btn">Job Match</a>
+                </div>
+            </td>
+
+        </tr>
+
+        {% empty %}
+
+        <tr>
+            <td colspan="4" class="empty-row">
+                ⚠️ No resumes uploaded yet.
+            </td>
+        </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+</main>
+
+</div>
+
+{% endblock %}

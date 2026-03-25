@@ -9,7 +9,7 @@ class Resume(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     name = models.CharField(max_length=200, blank=True)
-    email = models.CharField(max_length=200, blank=True)
+    email = models.EmailField(blank=True)
     phone = models.CharField(max_length=50, blank=True)
 
     skills = models.TextField(blank=True)
@@ -18,3 +18,7 @@ class Resume(models.Model):
     score = models.IntegerField(default=0)
 
     extracted_text = models.TextField(blank=True)
+    embedding = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.file} - {self.uploaded_at}"

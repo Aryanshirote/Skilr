@@ -2,120 +2,14 @@
 {% block content %}
 {% load static %}
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body{
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* Dark overlay */
-body::before{
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(3px);
-}
-
-/* Container */
-.container{
-    position:relative;
-    width:420px;
-    text-align:center;
-    color:#fff;
-}
-
-.container h1{
-    font-size:28px;
-    margin-bottom:10px;
-}
-
-.container h2{
-    font-weight:300;
-    margin-bottom:20px;
-}
-
-/* Input Fields */
-.input-box{
-    width:100%;
-    margin:15px 0;
-    position:relative;
-}
-
-.input-box input{
-    width:100%;
-    padding:15px 20px;
-    border-radius:30px;
-    border:none;
-    outline:none;
-    background: rgba(255,255,255,0.2);
-    color:#fff;
-    font-size:14px;
-    backdrop-filter: blur(5px);
-}
-
-.input-box input::placeholder{
-    color:#eee;
-}
-
-/* Button */
-.btn{
-    width:100%;
-    padding:15px;
-    border-radius:30px;
-    border:none;
-    background:#e6b99a;
-    color:#000;
-    font-weight:500;
-    font-size:15px;
-    cursor:pointer;
-    margin-top:15px;
-    transition:0.3s;
-}
-
-.btn:hover{
-    background:#d9a887;
-}
-
-/* Error Messages */
-.message{
-    margin-top:15px;
-    font-size:14px;
-    color:#ffcccc;
-}
-
-/* Background Video */
-#bgVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    min-width: 100%;
-    min-height: 100%;
-    z-index: -1;              
-    object-fit: cover;       
-}
 .auth-page {
-    {% comment %} position: relative; {% endcomment %}
     height: 100vh;
-    width: 1500;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url("{% static 'images/bg1.png' %}") no-repeat center center/cover;
+    background: linear-gradient(135deg, #eef2ff, #e0f2fe);
 }
-
 
 .auth-overlay {
     position: absolute;
@@ -124,6 +18,75 @@ body::before{
     background: rgba(0,0,0,0.55);
 }
 
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.shape1 {
+    width: 300px;
+    height: 300px;
+    background: #6366f1;
+    top: 10%;
+    left: 10%;
+}
+
+.shape2 {
+    width: 300px;
+    height: 300px;
+    background: #38bdf8;
+    bottom: 10%;
+    right: 10%;
+}
+
+.container {
+    position: relative;
+    width: 420px;
+    padding: 30px;
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+
+    color: #111;
+}
+
+.input-box {
+    margin: 15px 0;
+}
+
+.input-box input,
+.input-box select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+}
+
+/* dropdown fix */
+.input-box select option {
+    color: #000;
+}
+
+.btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    border: none;
+    background: cyan;
+    color: #000;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
 
 #newdiv {
     margin-top: 25px;
@@ -147,7 +110,6 @@ body::before{
     transition: 0.3s ease;
 }
 
-/* Underline animation */
 #signin::after {
     content: "";
     position: absolute;
@@ -168,16 +130,15 @@ body::before{
 }
 </style>
 
-<body>
-
 <div class="auth-page">
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
     <div class="auth-overlay"></div>
 
     <div class="container">
         <h1>Create Account</h1>
-        <h2>Join Smart Placement System</h2>
 
-        <form method="post" action="{% url 'register' %}">
+        <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
 
             <div class="input-box">
@@ -196,18 +157,32 @@ body::before{
                 <input type="password" name="confirm_password" placeholder="Confirm Password" required>
             </div>
 
-            <button type="submit" class="btn">REGISTER</button>
-
-            <div id="newdiv"> Already Registered? <a href="{%url 'login'%}" id="signin"> Sign in  </a></div> 
-
-
-            <div class="message">
-                {% if error %} {{ error }} {% endif %}
-                {% if bothtaken %} {{ bothtaken }} {% endif %}
-                {% if usertaken %} {{ usertaken }} {% endif %}
-                {% if emailtaken %} {{ emailtaken }} {% endif %}
+            <div class="input-box">
+                <select name="industry" required>
+                    <option value="" disabled selected>Select Industry</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Education">Education</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Arts_Design">Arts & Design</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Law">Law</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                </select>
             </div>
 
+            <button type="submit" class="btn">REGISTER</button>
+
+            <div id="newdiv">
+                Already Registered?
+                <a href="{%url 'login'%}" id="signin">Sign in</a>
+            </div>
+
+            {% if error %}
+                <p style="color:#ffcccc; margin-top:10px;">{{ error }}</p>
+            {% endif %}
         </form>
     </div>
 </div>

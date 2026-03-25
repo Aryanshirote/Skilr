@@ -12,12 +12,6 @@
     background: #f4f6f9;
 }
 
-#tsparticles {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
 
 /* Header */
 header {
@@ -653,57 +647,80 @@ header.shrink {
 }
 
 .resume-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
-background:white;
-border-radius:10px;
-overflow:hidden;
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
 }
 
 .resume-table th{
-background:#1e293b;
-color:white;
-padding:14px;
-text-align:left;
+    background:#1e293b;
+    color:white;
+    padding:14px;
+    text-align:left;
 }
 
 .resume-table td{
-padding:12px;
-border-bottom:1px solid #eee;
+    padding:12px;
+    border-bottom:1px solid #eee;
 }
 
 .resume-table tr:hover{
-background:#f8fafc;
+    background:#f8fafc;
 }
 
 .action-buttons{
-display:flex;
-flex-wrap:wrap;
-gap:5px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
 }
 
 .view-btn{
-background:#2563eb;
-color:white;
-padding:6px 12px;
-border-radius:6px;
-text-decoration:none;
-font-size:13px;
-white-space:nowrap;
+    background:#2563eb;
+    color:white;
+    padding:6px 12px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:13px;
+    white-space:nowrap;
 }
 
 .view-btn:hover{
-background:#1d4ed8;
+    background:#1d4ed8;
 }
 
-.view-btn{background:#2563eb;}
-.score-btn{background:#16a34a;}
-.gap-btn{background:#ea580c;}
-.job-btn{background:#9333ea;}
+    .view-btn{background:#2563eb;}
+    .score-btn{background:#16a34a;}
+    .gap-btn{background:#ea580c;}
+    .job-btn{background:#9333ea;}
+
+
+:root{
+    --bg-color: white;
+    --text-color: black;
+}
+
+.dark-mode{
+    --bg-color: #121212;
+    --text-color: white;
+}
+
+body{
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: Arial;
+    transition: background 0.3s, color 0.3s;
+}
+
+button{
+    padding:8px 15px;
+    cursor:pointer;
+}
 
 </style> 
-
+   
 
 <script>
 tsParticles.load("tsparticles", {
@@ -740,3 +757,5 @@ window.addEventListener("scroll", function() {
     header.classList.toggle("shrink", window.scrollY > 50);
 });
 </script>
+
+
